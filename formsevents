@@ -1,0 +1,139 @@
+create react app i.e. npx create-react-app myapp
+files in src app.css,app.js,index.js,index.css,Searchbar.js
+
+app.css
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+app.js
+
+import './App.css';
+import Searchbar from './Searchbar';
+import { useState } from "react";
+
+function App() {
+    const [data,setData] = useState({});
+
+    const updateData = (searchParams) => {
+        setData(searchParams);
+    }
+
+
+
+  return (
+    <div className="App">
+        <Searchbar callback={updateData} />
+        <p>Name:{"name" in data ? data["name"] : "No Data to display"} </p>
+        <p>Max price:{"price" in data ? data["price"] : "No Data to display"} </p>
+        <p>Type:{"type" in data ? data["type"] : "No Data to display"} </p>
+        <p>Brand:{"brand" in data ? data["brand"] : "No Data to display"} </p>
+      
+    </div>
+  );
+}
+
+export default App;
+
+index.css
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+index.js
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+searchbar.js
+import { useState } from "react";
+
+function Searchbar(props) {
+
+    const [name,setName] = useState("");
+    const [price,setPrice] = useState("0");
+    const [type,setType] = useState("");
+    const [brand,setBrand] = useState("");
+
+    const searchButtonPressed = () => {
+        props.callback({name: name, price: price, type:type, brand: brand });
+    };
+    return (
+        <div>
+            <h2>Search for an item</h2>
+            <form>
+                <label htmlFor ="name-field">Name:</label>
+                <input id = "name-field" type = "text" value={name} onChange={(e) => setName(e.target.value)} />        
+                <label htmlFor = "price-field">Max Price:</label>
+                <input id = "price-field" type = "number" value={price} onChange={(e) => setPrice(e.target.value)}/>        
+                <label htmlFor = "type-field">Type:</label>
+                <input id = "type-field" type = "text" value={type} onChange={(e) => setType(e.target.value)}/>
+                <label htmlFor = "brand-field">Brand:</label>
+                <input id = "brand-field" type = "number" value={brand} onChange={(e) => setBrand(e.target.value)}/>
+                <button type="button" onClick={searchButtonPressed}>Search</button>
+
+
+            </form>
+            <p>Name: {name}</p>
+            <p>Max Price: {price}</p>
+            <p>Type: {type}</p>
+            <p>Brand: {brand}</p>
+        </div>
+    );
+}
+ export default Searchbar;
